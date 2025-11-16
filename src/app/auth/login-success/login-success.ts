@@ -55,13 +55,21 @@ export class LoginSuccessComponent implements OnInit {
   ngOnInit(): void {
     const token = this.route.snapshot.queryParamMap.get('token');
     const name = this.route.snapshot.queryParamMap.get('name');
+    const onboardingStatus = this.route.snapshot.queryParamMap.get('onboarding');
 
-    if (token && name) {
+    if (token && name && onboardingStatus !== null) {
       const decodedName = decodeURIComponent(name);
-      this.authService.saveToken(token, decodedName);
-      this.router.navigate(['/dashboard']);
+      const hasCompletedOnboarding = onboardingStatus === 'true';
+      
+      this.authService.saveToken(token, decodedName, hasCompletedOnboarding);
+      
+      if (this.authService.hasCompletedOnboarding()) {
+        this.router.navigate(['/dashboard']);
+      } else {
+        this.router.navigate(['/bienvenido']);
+      }
     } else {
-      console.error("No se recibió el token o el nombre del backend.");
+      console.error("No se recibió la información completa (token, nombre, onboarding) del backend.");
       this.router.navigate(['/login']);
     }
   }

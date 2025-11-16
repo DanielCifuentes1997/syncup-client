@@ -47,8 +47,13 @@ export class Login {
     }).subscribe({
       next: (response: any) => {
         console.log('Login exitoso:', response);
-        this.authService.saveToken(response.token, response.nombre);
-        this.router.navigate(['/dashboard']);
+        this.authService.saveToken(response.token, response.nombre, response.haCompletadoOnboarding);
+        
+        if (this.authService.hasCompletedOnboarding()) {
+          this.router.navigate(['/dashboard']);
+        } else {
+          this.router.navigate(['/bienvenido']);
+        }
       },
       error: (error: any) => {
         console.error('Error en login:', error);

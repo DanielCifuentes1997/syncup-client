@@ -10,6 +10,7 @@ export class Auth {
   private readonly API_URL = 'http://localhost:8080/api/auth';
   private readonly tokenKey = 'syncup-token';
   private readonly userNameKey = 'syncup-username';
+  private readonly onboardingKey = 'syncup-onboarding-status';
 
   constructor(private http: HttpClient) {}
 
@@ -21,7 +22,7 @@ export class Auth {
     return this.http.post<any>(`${this.API_URL}/login`, credentials).pipe(
       tap(response => {
         if (response && response.token) {
-          this.saveToken(response.token, response.nombre);
+          this.saveToken(response.token, response.nombre, response.haCompletadoOnboarding);
         }
       })
     );
@@ -31,9 +32,10 @@ export class Auth {
     return this.http.post<any>(`${this.API_URL}/register`, userData);
   }
 
-  saveToken(token: string, name: string): void {
+  saveToken(token: string, name: string, onboardingStatus: boolean): void {
     localStorage.setItem(this.tokenKey, token);
     localStorage.setItem(this.userNameKey, name);
+    localStorage.setItem(this.onboardingKey, String(onboardingStatus));
   }
 
   getToken(): string | null {
@@ -44,9 +46,14 @@ export class Auth {
     return localStorage.getItem(this.userNameKey) || '';
   }
 
+  hasCompletedOnboarding(): boolean {
+    return localStorage.getItem(this.onboardingKey) === 'true';
+  }
+
   logout(): void {
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.userNameKey);
+    localStorage.removeItem(this.onboardingKey);
   }
 
   isLoggedIn(): boolean {

@@ -4,6 +4,8 @@ import { RegistroWizard } from './auth/registro-wizard/registro-wizard';
 import { LoginSuccessComponent } from './auth/login-success/login-success';
 import { Layout } from './layout/layout';
 import { authGuard } from './security/auth-guard';
+import { Home } from './pages/home/home';
+import { OnboardingLayout } from './onboarding/onboarding-layout/onboarding-layout';
 
 export const routes: Routes = [
   { path: 'login', component: Login },
@@ -11,9 +13,19 @@ export const routes: Routes = [
   { path: 'login-success', component: LoginSuccessComponent },
   
   { 
+    path: 'bienvenido', 
+    component: OnboardingLayout, 
+    canActivate: [authGuard] 
+  },
+  
+  { 
     path: 'dashboard', 
     component: Layout, 
-    canActivate: [authGuard] 
+    canActivate: [authGuard],
+    children: [
+      { path: 'home', component: Home },
+      { path: '', redirectTo: 'home', pathMatch: 'full' }
+    ]
   },
   
   { path: '', redirectTo: '/login', pathMatch: 'full' }
