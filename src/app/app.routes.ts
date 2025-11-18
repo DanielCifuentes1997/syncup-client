@@ -10,14 +10,14 @@ import { Home } from './pages/home/home';
 import { SearchComponent } from './pages/search/search';
 import { LibraryComponent } from './pages/library/library';
 import { ProfileComponent } from './pages/profile/profile';
+import { UserProfileComponent } from './pages/user-profile/user-profile';
+import { FollowedComponent } from './pages/followed/followed';
 
 import { adminAuthGuard } from './security/admin-auth.guard';
 import { AdminLayoutComponent } from './admin/admin-layout';
 import { ManageUsersComponent } from './admin/manage-users/manage-users';
 import { ManageSongsComponent } from './admin/manage-songs';
 import { AdminDashboardComponent } from './admin/admin-dashboard';
-
-import { UserProfileComponent } from './pages/user-profile/user-profile';
 
 export const routes: Routes = [
   { path: 'login', component: Login },
@@ -39,7 +39,8 @@ export const routes: Routes = [
       { path: 'search', component: SearchComponent },
       { path: 'library', component: LibraryComponent },
       { path: 'profile', component: ProfileComponent },
-      { path: 'user/:username', component: UserProfileComponent }, // NUEVA RUTA DINÁMICA
+      { path: 'followed', component: FollowedComponent }, // NUEVA RUTA DE SEGUIDOS
+      { path: 'user/:username', component: UserProfileComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' }
     ]
   },

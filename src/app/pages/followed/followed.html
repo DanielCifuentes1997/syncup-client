@@ -1,0 +1,32 @@
+<div class="followed-container">
+    <h2>Usuarios que Sigues</h2>
+
+    <div *ngIf="isLoading" class="spinner-container">
+        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    </div>
+
+    <div *ngIf="!isLoading && followedUsers.length === 0" class="no-results">
+        <mat-icon class="no-results-icon">people_outline</mat-icon>
+        <h3>No sigues a ningún usuario.</h3>
+        <p>Busca usuarios para hacer conexiones en el Grafo Social.</p>
+    </div>
+
+    <mat-list *ngIf="!isLoading && followedUsers.length > 0" class="followed-list">
+        <mat-list-item *ngFor="let user of followedUsers" class="followed-user-item">
+            <div matListItemAvatar class="user-avatar">
+                <span>{{ getUserInitials(user) }}</span>
+            </div>
+            
+            <div [routerLink]="['/dashboard/user', user.username]" class="user-info-text clickable-area">
+                <div matListItemTitle class="user-name">{{ user.nombre }}</div>
+                <div matListItemLine class="user-username">@{{ user.username }}</div>
+            </div>
+
+            <div matListItemMeta>
+                <button mat-button color="warn" (click)="unfollow(user)" matTooltip="Dejar de Seguir">
+                    Dejar de Seguir
+                </button>
+            </div>
+        </mat-list-item>
+    </mat-list>
+</div>

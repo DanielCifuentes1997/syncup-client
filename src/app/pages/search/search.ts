@@ -4,7 +4,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Observable, forkJoin } from 'rxjs';
 import { debounceTime, distinctUntilChanged, startWith, switchMap } from 'rxjs/operators';
 import { RouterLink } from '@angular/router';
-import { Router } from '@angular/router'; // Importación necesaria para la función startRadio
+import { Router } from '@angular/router';
 
 // --- Imports de Angular Material ---
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -14,7 +14,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatButtonModule } from '@angular/material/button';
-import { MatTooltipModule } from '@angular/material/tooltip'; // Añadida para el tooltip del botón de Radio
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 // --- Servicios que ya tenemos ---
 import { Song, SongDto, UserDto } from '../../services/song';
@@ -53,7 +53,7 @@ export class SearchComponent implements OnInit {
   constructor(
     private songService: Song,
     private playerService: PlayerService,
-    private router: Router // Inyección del router
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -94,7 +94,7 @@ export class SearchComponent implements OnInit {
         this.userSearchResults = users.filter(u => u.rol !== 'ADMIN');
         this.isLoadingSearch = false;
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Error en la búsqueda:', err);
         this.isLoadingSearch = false;
       }
@@ -118,7 +118,7 @@ export class SearchComponent implements OnInit {
         this.userSearchResults = this.userSearchResults.filter(u => u.username !== user.username);
         alert(`¡Ahora sigues a ${user.nombre}!`);
       },
-      error: (err) => console.error('Error al seguir usuario:', err)
+      error: (err: any) => console.error('Error al seguir usuario:', err)
     });
   }
 
@@ -129,13 +129,12 @@ export class SearchComponent implements OnInit {
     event.stopPropagation();
 
     this.songService.startRadio(song.id).subscribe({
-      next: (queue) => {
+      next: (queue: SongDto[]) => {
         this.playerService.playQueue(queue);
         alert(`Radio iniciada con ${queue.length} canciones similares.`);
-        // Navegar a home para ver la cola/player
         this.router.navigate(['/dashboard/home']); 
       },
-      error: (err) => console.error('Error al iniciar Radio:', err)
+      error: (err: any) => console.error('Error al iniciar Radio:', err)
     });
   }
 }

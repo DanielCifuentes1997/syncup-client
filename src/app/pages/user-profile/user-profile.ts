@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { forkJoin } from 'rxjs'; // Importación de forkJoin
+import { forkJoin } from 'rxjs';
 import { finalize, switchMap } from 'rxjs/operators';
 
 import { Song, SongDto, UserDto } from '../../services/song';
@@ -21,7 +21,8 @@ import { PlayerService } from '../../services/player.service';
     MatListModule,
     MatIconModule,
     MatButtonModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    RouterLink
   ],
   templateUrl: './user-profile.html',
   styleUrl: './user-profile.css'

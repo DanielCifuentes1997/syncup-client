@@ -63,7 +63,7 @@ export class Home implements OnInit {
         this.favoriteSongIds.clear();
         favorites.forEach(song => this.favoriteSongIds.add(song.id));
       },
-      error: (err) => console.error('Error al cargar favoritos:', err)
+      error: (err: any) => console.error('Error al cargar favoritos:', err)
     });
   }
 
@@ -93,12 +93,12 @@ export class Home implements OnInit {
     if (isFav) {
       this.songService.removeFavorite(song.id).subscribe({
         next: (favorites) => this.updateFavoritesSet(favorites),
-        error: (err) => console.error('Error al quitar favorito:', err)
+        error: (err: any) => console.error('Error al quitar favorito:', err)
       });
     } else {
       this.songService.addFavorite(song.id).subscribe({
         next: (favorites) => this.updateFavoritesSet(favorites),
-        error: (err) => console.error('Error al añadir favorito:', err)
+        error: (err: any) => console.error('Error al añadir favorito:', err)
       });
     }
   }
@@ -115,21 +115,20 @@ export class Home implements OnInit {
         this.userSuggestions = this.userSuggestions.filter(u => u.username !== user.username);
         alert(`¡Ahora sigues a ${user.nombre}!`);
       },
-      error: (err) => console.error('Error al seguir usuario:', err)
+      error: (err: any) => console.error('Error al seguir usuario:', err)
     });
   }
   
-  // --- NUEVA FUNCIONALIDAD: INICIAR RADIO (RF-006) ---
   startRadio(event: MouseEvent, song: SongDto): void {
     event.stopPropagation();
 
     this.songService.startRadio(song.id).subscribe({
-      next: (queue) => {
+      next: (queue: SongDto[]) => {
         this.playerService.playQueue(queue);
         alert(`Radio iniciada con ${queue.length} canciones similares.`);
-        this.router.navigate(['/dashboard/home']); // Permanecer o redirigir si se quiere mostrar la cola
+        this.router.navigate(['/dashboard/home']);
       },
-      error: (err) => console.error('Error al iniciar Radio:', err)
+      error: (err: any) => console.error('Error al iniciar Radio:', err)
     });
   }
 }

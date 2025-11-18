@@ -79,6 +79,10 @@ export class Song {
     });
   }
 
+  unfollowUser(usernameToUnfollow: string): Observable<UserDto[]> {
+    return this.http.delete<UserDto[]>(`${this.USERS_API_URL}/follow/${usernameToUnfollow}`);
+  }
+
   searchUsers(query: string): Observable<UserDto[]> {
     const params = new HttpParams().set('query', query);
     return this.http.get<UserDto[]>(`${this.USERS_API_URL}/search`, { params });
@@ -92,6 +96,11 @@ export class Song {
     return this.http.get<SongDto[]>(`${this.USERS_API_URL}/profile/${username}/favorites`);
   }
   
+  getFollowed(): Observable<UserDto[]> {
+    return this.http.get<UserDto[]>(`${this.USERS_API_URL}/me/followed`);
+  }
+
+  // --- MÉTODO FALTANTE: INICIAR RADIO (RF-006) ---
   startRadio(songId: number): Observable<SongDto[]> {
     return this.http.get<SongDto[]>(`${this.API_URL}/recommendations/radio/${songId}`);
   }
